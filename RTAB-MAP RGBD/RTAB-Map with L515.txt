@@ -1,0 +1,17 @@
+#For the camera launch
+
+# ISSUE: Use unite_imu_method:="copy" if imu topics keep stopping
+$ roslaunch realsense2_camera rs_camera.launch \
+    align_depth:=true \
+    unite_imu_method:="linear_interpolation" \
+    enable_gyro:=true \
+     enable_accel:=true
+
+$ rosrun imu_filter_madgwick imu_filter_node \
+    _use_mag:=false \
+    _publish_tf:=false \
+    _world_frame:="enu" \
+    /imu/data_raw:=/camera/imu \
+    /imu/data:=/rtabmap/imu
+
+# the imu_filter_madgwick will need to be installed seperatly 
